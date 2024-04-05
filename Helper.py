@@ -6,12 +6,19 @@ def get(string: str, index: int):
 	return -1
 
 def readPreprocess(file_path: str):
-	result = open(file_path, "r", -1, "utf-8").read()
-	while '(*' in result:
-		result = result[:result.find('(*')] + result[result.find("*)") + 2:]
-	while '\n' in result:
-		result = result[:result.find('\n')] + " " + result[result.find('\n') + 1:]
-	return result
+	raw_data = open(file_path, "r", -1, "utf-8").read()
+	while '(*' in raw_data:
+		raw_data = raw_data[:raw_data.find('(*')] + raw_data[raw_data.find("*)") + 2:]
+	while '\n' in raw_data:
+		raw_data = raw_data[:raw_data.find('\n')] + " " + raw_data[raw_data.find('\n') + 1:]
+		
+	result = raw_data.split("\n")
+	for i, line in enumerate(result):
+		tokens = line.split()
+		if len(tokens) > 0 and tokens[0] == "let":
+			result[i] = result[i].replace(".", "'.'")
+
+	return "\n".join(result)
 
 def isLetter(char: str):
 	char = ord(char)
@@ -70,6 +77,19 @@ def errorCheck(file_path: str):
 	if b_open %2 != 0:
 		print('Error: Unbalanced Apostrophes: "')
 		return False
+
+	parsing_variables = False
+	for i, line in enumerate(lines):
+		tokens = line.split()
+		if len(tokens) > 0:
+			if tokens[0] == "let":
+				if tokens[2] != "=":
+					print("let statement has erroneous '=' sign")
+					return False
+				else:
+					parsing_variables = True
+		if parsing_variables:
+			break
 
 	parsing_rules = False
 	for i, line in enumerate(lines):

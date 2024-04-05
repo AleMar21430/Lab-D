@@ -16,12 +16,12 @@ def processVariables(data: str):
 		if data.find('let ') == -1:
 			value = data[data.find('=') + 1: data.find('rule tokens')]
 			value = cleanString(value)
-			variables[name] = value.replace("\\n", "\n").replace("\\t", "\t")
+			variables[name] = value.replace("\\n", "\n").replace("\\t", "\t").replace("\\s", " ")
 			data = data[data.find('rule tokens'):]
 		else:
 			value = data[data.find('=') + 1:data.find('let ')]
 			value = cleanString(value)
-			variables[name] = value.replace("\\n", "\n").replace("\\t", "\t")
+			variables[name] = value.replace("\\n", "\n").replace("\\t", "\t").replace("\\s", " ")
 			data = data[data.find('let '):]
 	logVariables(variables)
 	keys_array = list(variables.keys())
@@ -68,7 +68,8 @@ def processReturnRules(rule_tokens: List[str]):
 def parseToken(token: str):
 	stack: List[str] = []
 	result: List[Token] = []
-	for char in token: stack.append(char)
+	for char in token:
+		stack.append(char)
 	while stack:
 		char = stack.pop(0)
 		if char == "'":
@@ -83,7 +84,8 @@ def parseTokens(tokens: List[str]):
 	stack: List[str] = []
 	result: List[Token] = []
 	regex = "|".join(tokens)
-	for char in regex: stack.append(char)
+	for char in regex:
+		stack.append(char)
 	while stack:
 		char = stack.pop(0)
 		if char == "'":

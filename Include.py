@@ -11,10 +11,6 @@ QUESTION = '?'
 L_PARENTHESIS = '('
 R_PARENTHESIS = ')'
 
-TOKEN = {
-	0: 'Return Number'
-}
-
 PRECEDENCE = {
 	'|' : 1,
 	'.' : 2,

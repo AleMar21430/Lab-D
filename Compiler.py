@@ -119,7 +119,7 @@ def processAssignment(value: str):
 					exclude.append(chr(i))
 			for char in excl:
 				exclude.append(char)
-			all = [char for char in include_list if char not in exclude]
+			all = [char if char not in exclude and char not in "+-." else f"'{char}'" for char in include_list]
 			map[key] = "[" + "|".join(all) + "]"
 		for key, val in map.items():
 			value = value.replace(key, val)

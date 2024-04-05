@@ -63,7 +63,6 @@ class AFD:
 			for i in transitions:
 				if i[2] == value:
 					i[2] = key
-
 		state_count = []
 		for key, value in state_dict.items():
 			state_count.append(key)
@@ -78,7 +77,6 @@ class AFD:
 							transition = final.index(val)
 							state.token = TOKEN_DICT[transition]
 			self.states.add(state)
-
 		for state_id in self.states:
 			for transition in transitions:
 				if transition[0] == state_id.id:
@@ -111,7 +109,7 @@ class AFD:
 def treeConstruction(postfix: List[Token[str]]):
 	stack: List[Node[Token[str]]] = []
 	id = 0
-	for i, char in enumerate(postfix):
+	for char in postfix:
 		if not char.isOperator:
 			if char.data == 'ε':
 				stack.append(Node(char, None))
