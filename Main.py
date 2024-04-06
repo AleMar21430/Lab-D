@@ -6,9 +6,9 @@ from Logger import *
 from Structs import *
 from Syntax_Tree import *
 
-YALEX = "./slr-2.yal"
+YALEX = "./slr-1.yal"
 SIMULATION = "hola 123 + ID123 - *"
-RENDER = False
+RENDER = True
 
 # Lab C
 if errorCheck(YALEX):

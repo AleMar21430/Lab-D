@@ -78,18 +78,16 @@ def errorCheck(file_path: str):
 		print('Error: Unbalanced Apostrophes: "')
 		return False
 
-	parsing_variables = False
 	for i, line in enumerate(lines):
 		tokens = line.split()
 		if len(tokens) > 0:
 			if tokens[0] == "let":
 				if tokens[2] != "=":
-					print("let statement has erroneous '=' sign")
+					print(f"line({i}) let statement has erroneous '=' sign: {line}")
 					return False
-				else:
-					parsing_variables = True
-		if parsing_variables:
-			break
+			elif tokens[0].startswith("let") and "=" in line:
+				print(f"line({i}) let statement spacing error: {line}")
+				return False
 
 	parsing_rules = False
 	for i, line in enumerate(lines):
@@ -100,21 +98,21 @@ def errorCheck(file_path: str):
 				tokens = line.strip().split()
 				if len(tokens) > 0:
 					if tokens[0] == "|" and len(tokens) < 2:
-						print(f"Warning: rule '{tokens[0]}' has no {{return}} statement")
+						print(f"line({i}) Warning: rule '{tokens[0]}' has no {{return}} statement: {line}")
 					if len(tokens) == 1:
-						print(f"Warning: rule '{tokens[0]}' has no {{return}} statement")
+						print(f"line({i}) Warning: rule '{tokens[0]}' has no {{return}} statement: {line}")
 			break
 		if len(tokens) > 0:
 			if tokens[0] == "let" and tokens[2] != "=":
-				print("let statement has erroneous '=' sign")
+				print(f"line({i}) let statement has erroneous '=' sign: {line}")
 				return False
 			if tokens[0] == "rule":
 				parsing_rules = True
 				if tokens[1] != "tokens":
-					print("rule tokens =  has erroneous tokens")
+					print(f"line({i}) rule tokens =  has erroneous tokens: {line}")
 					return False
 				elif tokens[2] != "=":
-					print("rule tokens =  has erroneous '=' sign")
+					print(f"line({i}) rule tokens =  has erroneous '=' sign: {line}")
 					return False
 
 	return True
